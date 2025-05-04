@@ -11,10 +11,14 @@ interface WorkPageProps {
 
 const WorkPage = ({ onNavigate }: WorkPageProps) => {
   const { theme } = useTheme();
-  
-  const textColor = theme === 'dark' ? '#ffffff' : '#000000';
-  const accentColor = '#4d79ff'; // Blue accent color for Work page
-  
+
+  // Using our color palette in order: #F3F3E0 (cream), #27548A (blue), #183B4E (navy), #DDA853 (gold)
+  const textColor = theme === 'dark' ? '#F3F3E0' : '#183B4E';
+  const primaryColor = '#F3F3E0'; // Cream as primary
+  const secondaryColor = '#27548A'; // Blue as secondary
+  const tertiaryColor = '#183B4E'; // Navy as tertiary
+  const accentColor = '#27548A'; // Blue as accent for Work page
+
   const projects = [
     {
       title: "E-commerce Platform",
@@ -35,20 +39,19 @@ const WorkPage = ({ onNavigate }: WorkPageProps) => {
       image: "/project3.jpg" // Replace with actual project image
     }
   ];
-  
+
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-center overflow-hidden" 
-      style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-      <motion.div 
+    <section className="w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-cream dark:bg-navy">
+      <motion.div
         className="w-full max-w-6xl mx-auto px-6 md:px-12 py-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h1 className="text-4xl md:text-5xl font-light mb-8" style={{ color: accentColor }}>
-          工作 <span style={{ color: textColor }}>Work</span>
+        <h1 className="text-4xl md:text-5xl font-light mb-8 text-blue dark:text-blue">
+          工作 <span className="text-navy dark:text-cream">Work</span>
         </h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {projects.map((project, index) => (
             <motion.div
@@ -70,17 +73,13 @@ const WorkPage = ({ onNavigate }: WorkPageProps) => {
                   className="object-cover transition-all duration-500 hover:scale-105"
                 /> */}
               </div>
-              
-              <h3 className="text-xl font-medium mb-2" style={{ color: accentColor }}>{project.title}</h3>
-              <p className="text-base mb-4" style={{ color: textColor }}>{project.description}</p>
-              
+
+              <h3 className="text-xl font-medium mb-2 text-blue dark:text-blue">{project.title}</h3>
+              <p className="text-base mb-4 text-navy dark:text-cream">{project.description}</p>
+
               <div className="flex flex-wrap gap-2 mt-auto">
                 {project.technologies.map((tech, techIndex) => (
-                  <span key={techIndex} className="px-2 py-1 rounded-full text-xs" 
-                    style={{ 
-                      backgroundColor: theme === 'dark' ? 'rgba(77, 121, 255, 0.2)' : 'rgba(77, 121, 255, 0.1)',
-                      color: accentColor
-                    }}>
+                  <span key={techIndex} className="px-2 py-1 rounded-full text-xs bg-gold bg-opacity-10 text-gold dark:bg-gold dark:bg-opacity-20 dark:text-gold">
                     {tech}
                   </span>
                 ))}
@@ -88,14 +87,14 @@ const WorkPage = ({ onNavigate }: WorkPageProps) => {
             </motion.div>
           ))}
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="mt-12 flex justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          <button 
+          <button
             onClick={() => onNavigate('contact')}
             className="inline-block border-b-2 pb-1 text-lg hover:pb-2 transition-all duration-300"
             style={{ borderColor: accentColor, color: accentColor }}

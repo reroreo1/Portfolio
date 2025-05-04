@@ -1,22 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import Typewriter from 'typewriter-effect';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { profileTranslations } from '@/translations/profileTranslations';
 import Link from 'next/link';
-import Image from 'next/image';
 
-// Define the page sections with new color palette: #353941, #26282B, #5F85DB, #90B8F8
+// Define the page sections with our color palette: #F3F3E0, #27548A, #183B4E, #DDA853
 const sections = [
-  { id: 'profile', label: '簡介', englishLabel: 'Profile', color: '#353941', darkColor: '#353941', position: 'left' },
-  { id: 'experience', label: '經驗', englishLabel: 'Experience', color: '#26282B', darkColor: '#26282B', position: 'center-left' },
-  { id: 'projects', label: '項目', englishLabel: 'Projects', color: '#353941', darkColor: '#353941', position: 'center-right' },
-  { id: 'contact', label: '聯繫', englishLabel: 'Contact', color: '#26282B', darkColor: '#26282B', position: 'right' },
+  { id: 'profile', label: '簡介', englishLabel: 'Profile', color: '#F3F3E0', darkColor: '#183B4E', position: 'left' },
+  { id: 'experience', label: '經驗', englishLabel: 'Experience', color: '#27548A', darkColor: '#27548A', position: 'center-left' },
+  { id: 'projects', label: '項目', englishLabel: 'Projects', color: '#183B4E', darkColor: '#F3F3E0', position: 'center-right' },
+  { id: 'contact', label: '聯繫', englishLabel: 'Contact', color: '#DDA853', darkColor: '#DDA853', position: 'right' },
 ];
 
 const DrawerNavigation = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
+  const { language, setLanguage } = useLanguage();
   const [activeSection, setActiveSection] = useState('profile'); // Default to profile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -35,105 +36,538 @@ const DrawerNavigation = () => {
       case 'profile':
         return (
           <div className="h-full flex flex-col">
-            <div className="flex-grow flex flex-col items-start justify-center p-8 md:pl-16">
+            <div className="min-h-screen font-radley overflow-auto scrollbar-hide bg-[#F3F3E0]">
+              <div className="max-w-6xl mx-auto px-8 py-16 md:py-24">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+                  {/* Left Column */}
+                  <div className="md:col-span-5 flex flex-col justify-between h-full">
+                    <div className="sticky top-0 pt-4 pb-6 bg-[#F3F3E0] z-10">
+                      <div className="text-right">
+                        <h1 className="text-3xl md:text-4xl text-[#183B4E] font-normal leading-tight">
+                          {profileTranslations[language].title.split('\n').map((line, i) => (
+                            <React.Fragment key={i}>
+                              {line}{i < profileTranslations[language].title.split('\n').length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
+                        </h1>
+                      </div>
+
+                      <div className="flex justify-center mt-6">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                          className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#183B4E] shadow-xl"
+                          whileHover={{
+                            scale: 1.03,
+                            boxShadow: "0 10px 25px rgba(24, 59, 78, 0.3)",
+                            transition: { duration: 0.3 }
+                          }}
+                        >
+                          <img
+                            src="/rachid_cv.jpg"
+                            alt="Rachid's Profile"
+                            className="w-full h-full object-cover"
+                          />
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    <div className="mt-auto pt-16 md:pt-24 sticky bottom-0 bg-[#F3F3E0] pb-4">
+                      {/* Dog illustration - simplified to match reference */}
+                      <svg width="90" height="200" viewBox="0 0 110 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#183B4E]">
+                        {/* Dog head */}
+                        <path d="M50 20C50 20 40 10 50 5C60 0 80 0 90 5C100 10 90 20 90 20" stroke="currentColor" strokeWidth="1"/>
+                        {/* Dog eye */}
+                        <circle cx="60" cy="10" r="2" fill="currentColor"/>
+                        {/* Dog ear */}
+                        <path d="M40 15C40 15 30 5 45 0" stroke="currentColor" strokeWidth="1"/>
+                        {/* Dog nose/mouth */}
+                        <path d="M65 15C65 15 70 18 75 15" stroke="currentColor" strokeWidth="1"/>
+                        {/* Dog long neck */}
+                        <path d="M70 20C70 20 80 60 70 120C60 180 70 240 70 270" stroke="currentColor" strokeWidth="1"/>
+                        {/* Dog legs */}
+                        <path d="M70 270L50 290" stroke="currentColor" strokeWidth="1"/>
+                        <path d="M70 270L90 290" stroke="currentColor" strokeWidth="1"/>
+                      </svg>
+
+                      {/* Social links */}
+                      <div className="flex space-x-5 mt-6">
+                        <a href="https://www.linkedin.com/in/rezzahra/" target="_blank" rel="noopener noreferrer" className="text-[#183B4E]">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                          </svg>
+                        </a>
+                        <a href="https://www.instagram.com/rezzahra0/" target="_blank" rel="noopener noreferrer" className="text-[#183B4E]">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                          </svg>
+                        </a>
+                        <a href="https://github.com/reroreo1" target="_blank" rel="noopener noreferrer" className="text-[#183B4E]">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Vertical Divider */}
+                  <div className="hidden md:block md:col-span-1 relative">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-[1px] bg-[#183B4E] opacity-30"></div>
+                  </div>
+
+                  {/* Right Column */}
+                  <div className="md:col-span-6 flex flex-col justify-between h-full">
+                    <div className="overflow-y-auto scrollbar-hide">
+                      <h2 className="text-base font-medium text-[#183B4E] mb-6">{profileTranslations[language].tldr}</h2>
+                      <p className="text-[#183B4E] mb-6 text-base leading-relaxed">
+                        {profileTranslations[language].paragraph1}
+                      </p>
+                      <p className="text-[#183B4E] mb-6 text-base leading-relaxed">
+                        {profileTranslations[language].paragraph2}
+                      </p>
+                      <p className="text-[#183B4E] text-base leading-relaxed">
+                        {profileTranslations[language].paragraph3}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto pt-12">
+                      <div className="flex space-x-6">
+                        <button
+                          onClick={() => setLanguage('en')}
+                          className={`text-[#183B4E] hover:underline font-normal ${language === 'en' ? 'underline font-medium' : ''}`}
+                        >
+                          EN
+                        </button>
+                        <button
+                          onClick={() => setLanguage('ru')}
+                          className={`text-[#183B4E] hover:underline font-normal ${language === 'ru' ? 'underline font-medium' : ''}`}
+                        >
+                          RU
+                        </button>
+                        <button
+                          onClick={() => setLanguage('fr')}
+                          className={`text-[#183B4E] hover:underline font-normal ${language === 'fr' ? 'underline font-medium' : ''}`}
+                        >
+                          FR
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'experience':
+        return (
+          <div className="h-full flex flex-col">
+            <div className="min-h-screen font-radley overflow-auto scrollbar-hide bg-[#27548A]">
+              <div className="max-w-6xl mx-auto px-8 py-16 md:py-24">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+                  {/* Left Column - Experience */}
+                  <div className="md:col-span-5 flex flex-col h-full">
+                    <div className="text-right sticky top-0 pt-4 pb-2 bg-[#27548A] z-10">
+                      <h1 className="text-3xl md:text-4xl text-white font-normal leading-tight">
+                        Professional<br />Experience
+                      </h1>
+                    </div>
+
+                    <div className="mt-8 space-y-12 overflow-y-auto scrollbar-hide">
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-medium text-[#DDA853]">Lead Developer</h3>
+                          <span className="text-white font-medium text-sm">06/2024 - present</span>
+                        </div>
+                        <h4 className="text-lg text-white mb-3">OS Websolutions</h4>
+                        <div className="space-y-3 text-white text-opacity-90">
+                          <p className="text-base leading-relaxed"><strong className="text-[#DDA853]">Halal Sheikh App:</strong> Developed a cross-platform barcode scanning app using Flutter with a Strapi CMS backend, allowing users to check if products are halal or haram.</p>
+                          <p className="text-base leading-relaxed"><strong className="text-[#DDA853]">ActiveCSP:</strong> Built an OSINT platform to monitor user assets like IPs, domains, and emails using tools such as Nmap, Nuclei, and honeypots.</p>
+                          <p className="text-base leading-relaxed"><strong className="text-[#DDA853]">Leadshift:</strong> Developed an AI-powered lead generation platform that automates cold outreach via emails and calls using Next.js, ShadCN, and NestJS.</p>
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-medium text-[#DDA853]">Full Stack Developer</h3>
+                          <span className="text-white font-medium text-sm">01/2023 - 05/2023</span>
+                        </div>
+                        <h4 className="text-lg text-white mb-3">UM6P College of Computing</h4>
+                        <div className="space-y-3 text-white text-opacity-90">
+                          <p className="text-base leading-relaxed">
+                            Developed a revolutionary AI note-taking app utilizing the Whisperx transcription model as a microservice on a Flask server. Built with Angular and Spring Boot to assist a student with dysarthria in enhancing her academic experience.
+                          </p>
+                          <p className="text-base leading-relaxed">
+                            Involved in every development stage from benchmarking to presenting the MVP to investors. Focused on improving user experience, ensuring satisfying results with minimal clicks. Revamped the design three times and reimplemented the UI based on client feedback.
+                          </p>
+                          <div className="flex flex-wrap gap-2 mt-3">
+                            <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Angular</span>
+                            <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Spring Boot</span>
+                            <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Flask</span>
+                            <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">NLP</span>
+                            <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">UI/UX</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Vertical Divider */}
+                  <div className="hidden md:block md:col-span-1 relative">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-[1px] bg-[#DDA853] opacity-30"></div>
+                  </div>
+
+                  {/* Right Column - Education */}
+                  <div className="md:col-span-6 flex flex-col h-full">
+                    <div className="sticky top-0 pt-4 pb-2 bg-[#27548A] z-10">
+                      <h1 className="text-3xl md:text-4xl text-white font-normal leading-tight">
+                        Education &<br />Certifications
+                      </h1>
+                    </div>
+
+                    <div className="mt-8 space-y-12 overflow-y-auto scrollbar-hide">
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.5 }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-medium text-[#DDA853]">Member, Software Architect</h3>
+                          <span className="text-white font-medium text-sm">2026</span>
+                        </div>
+                        <h4 className="text-lg text-white mb-3">1337 Benguerir</h4>
+                        <p className="text-base leading-relaxed text-white text-opacity-90">
+                          Specialized in software architecture and advanced programming techniques.
+                        </p>
+                      </motion.div>
+
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.5 }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-medium text-[#DDA853]">Computer Science & Engineering</h3>
+                          <span className="text-white font-medium text-sm">2018 - 2020</span>
+                        </div>
+                        <h4 className="text-lg text-white mb-3">École nationale des sciences appliquées d'Agadir</h4>
+                        <p className="text-base leading-relaxed text-white text-opacity-90">
+                          Focused on computer science fundamentals and engineering principles.
+                        </p>
+                      </motion.div>
+
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-medium text-[#DDA853]">Meta Full Stack Developer Specialization</h3>
+                          <span className="text-white font-medium text-sm">2023</span>
+                        </div>
+                        <h4 className="text-lg text-white mb-3">Meta</h4>
+                        <p className="text-base leading-relaxed text-white text-opacity-90">
+                          React-Django specialization covering front-end and back-end development.
+                        </p>
+                      </motion.div>
+                    </div>
+
+                    <div className="mt-auto pt-12 sticky bottom-0 bg-[#27548A] pb-4">
+                      <motion.button
+                        onClick={() => setActiveSection('projects')}
+                        className="px-6 py-3 bg-[#183B4E] text-white border border-[#183B4E] rounded-none text-lg hover:bg-opacity-90 transition-all duration-300 flex items-center space-x-2"
+                        whileHover={{ scale: 1.05, x: 5, backgroundColor: "#183B4E", boxShadow: "0 0 10px rgba(24, 59, 78, 0.5)" }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span>View My Projects</span>
+                        <motion.span
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 1.5,
+                            ease: "easeInOut"
+                          }}
+                        >→</motion.span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'projects':
+        return (
+          <div className="h-full flex flex-col">
+            <div className="min-h-screen font-radley overflow-auto scrollbar-hide bg-[#183B4E]">
+              <div className="max-w-6xl mx-auto px-8 py-16 md:py-24">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+                  {/* Left Column - Skills */}
+                  <div className="md:col-span-5 flex flex-col h-full">
+                    <div className="text-right sticky top-0 pt-4 pb-2 bg-[#183B4E] z-10">
+                      <h1 className="text-3xl md:text-4xl text-white font-normal leading-tight">
+                        Technical<br />Skills
+                      </h1>
+                    </div>
+
+                    <div className="mt-8 space-y-8 overflow-y-auto scrollbar-hide">
+                      {/* Frontend Skills */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Frontend</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            'Next.js', 'Angular', 'React.js', 'TypeScript', 'JavaScript',
+                            'TailwindCSS', 'Bootstrap', 'Flutter', 'Dart', 'Version Control'
+                          ].map((skill) => (
+                            <span key={skill} className="px-3 py-1 text-white text-sm bg-[#183B4E] border border-[#DDA853] border-opacity-30">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {/* Backend Skills */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Backend</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            'Python', 'Flask', 'FastAPI', 'JavaScript', 'TypeScript', 'Node.js', 'Express'
+                          ].map((skill) => (
+                            <span key={skill} className="px-3 py-1 text-white text-sm bg-[#183B4E] border border-[#DDA853] border-opacity-30">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {/* Databases Skills */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Databases</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            'MySQL', 'PostgreSQL', 'MongoDB', 'GraphQL'
+                          ].map((skill) => (
+                            <span key={skill} className="px-3 py-1 text-white text-sm bg-[#183B4E] border border-[#DDA853] border-opacity-30">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {/* DevOps Skills */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">DevOps</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            'Docker', 'Linux', 'AWS', 'Digital Ocean', 'Microsoft Azure'
+                          ].map((skill) => (
+                            <span key={skill} className="px-3 py-1 text-white text-sm bg-[#183B4E] border border-[#DDA853] border-opacity-30">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      {/* Languages */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Languages</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            'English', 'French', 'Arabic'
+                          ].map((skill) => (
+                            <span key={skill} className="px-3 py-1 text-white text-sm bg-[#183B4E] border border-[#DDA853] border-opacity-30">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Vertical Divider */}
+                  <div className="hidden md:block md:col-span-1 relative">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-[1px] bg-[#DDA853] opacity-30"></div>
+                  </div>
+
+                  {/* Right Column - Projects & Certificates */}
+                  <div className="md:col-span-6 flex flex-col h-full">
+                    <div className="sticky top-0 pt-4 pb-2 bg-[#183B4E] z-10">
+                      <h1 className="text-3xl md:text-4xl text-white font-normal leading-tight">
+                        Projects &<br />Certificates
+                      </h1>
+                    </div>
+
+                    <div className="mt-8 space-y-8 overflow-y-auto scrollbar-hide">
+                      {/* Projects */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Halal Sheikh App</h3>
+                        <p className="text-white text-opacity-90 mb-3">
+                          A cross-platform barcode scanning app using Flutter with a Strapi CMS backend, allowing users to check if products are halal or haram.
+                        </p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Flutter</span>
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Strapi</span>
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">OCR</span>
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">ActiveCSP</h3>
+                        <p className="text-white text-opacity-90 mb-3">
+                          An OSINT platform to monitor user assets like IPs, domains, and emails using tools such as Nmap, Nuclei, and honeypots.
+                        </p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">FastAPI</span>
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Docker</span>
+                          <span className="px-2 py-1 text-xs text-white bg-[#27548A] bg-opacity-50">Azure</span>
+                        </div>
+                      </motion.div>
+
+                      {/* Certificates */}
+                      <motion.div
+                        className="p-4 border-b border-[#DDA853] border-opacity-30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7, duration: 0.5 }}
+                      >
+                        <h3 className="text-xl font-medium mb-4 text-[#DDA853]">Certificates</h3>
+                        <ul className="space-y-4 text-white text-opacity-90">
+                          <li className="flex items-start">
+                            <span className="text-[#DDA853] mr-2">•</span>
+                            <div>
+                              <p className="font-medium">Meta Full Stack Developer Specialization</p>
+                              <p className="text-sm text-white text-opacity-70">Meta - 2023</p>
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="text-[#DDA853] mr-2">•</span>
+                            <div>
+                              <p className="font-medium">Programming with Javascript</p>
+                              <p className="text-sm text-white text-opacity-70">Coursera - 2023</p>
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="text-[#DDA853] mr-2">•</span>
+                            <div>
+                              <p className="font-medium">Data Structure and Algorithmic using Javascript</p>
+                              <p className="text-sm text-white text-opacity-70">Coursera - 2023</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </motion.div>
+                    </div>
+
+                    <div className="mt-auto pt-12 sticky bottom-0 bg-[#183B4E] pb-4">
+                      <motion.button
+                        onClick={() => setActiveSection('contact')}
+                        className="px-6 py-3 bg-[#DDA853] text-white border border-[#DDA853] rounded-none text-lg hover:bg-opacity-90 transition-all duration-300 flex items-center space-x-2"
+                        whileHover={{ scale: 1.05, x: 5, backgroundColor: "#DDA853", boxShadow: "0 0 10px rgba(221, 168, 83, 0.5)" }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span>Contact Me</span>
+                        <motion.span
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 1.5,
+                            ease: "easeInOut"
+                          }}
+                        >→</motion.span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'contact':
+        return (
+          <div className="h-full flex flex-col justify-center items-center bg-[#DDA853]">
+            <div className="max-w-3xl w-full px-6 py-12">
+              {/* Social Icons */}
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-                className="mb-8"
-              >
-                <h1 className="text-6xl md:text-8xl font-bold mb-4 text-white bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] bg-clip-text text-transparent tracking-tight">
-                  Rachid<br/>Ezzahraouy
-                </h1>
-                <div className="h-1 w-32 bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] rounded-full mb-8"></div>
-                <p className="text-2xl text-white opacity-75 mb-6 max-w-xl">Software Engineer & Full Stack Developer</p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 rounded-lg mb-6 shadow-lg border-l-4 border-[#5F85DB] text-left max-w-2xl"
-              >
-                <h2 className="text-2xl md:text-3xl font-light text-white">
-                  <Typewriter
-                    options={{
-                      strings: [
-                        'Software Engineer',
-                        'Lead Developer at OS Websolutions',
-                        'Full Stack Developer',
-                        'Machine Learning Enthusiast',
-                        'Data Science Student'
-                      ],
-                      autoStart: true,
-                      loop: true,
-                      delay: 75,
-                      deleteSpeed: 50,
-                    }}
-                  />
-                </h2>
-              </motion.div>
-              <motion.div
-                className="relative w-full max-w-md aspect-[4/3] mt-8 mb-8 overflow-hidden rounded-lg shadow-lg self-end mr-8 md:absolute md:right-16 md:top-1/4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Image
-                  src="/rachid.png"
-                  alt="Rachid Ezzahraouy"
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'center' }}
-                  className="grayscale hover:grayscale-0 transition-all duration-1000"
-                  priority
-                />
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-20 mix-blend-multiply"
-                  whileHover={{ opacity: 0.1 }}
-                  transition={{ duration: 0.5 }}
-                ></motion.div>
-              </motion.div>
-              <motion.div
-                className="text-xl md:text-2xl font-light mb-12 max-w-2xl text-left bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 rounded-lg shadow-lg border-l-4 border-[#5F85DB]"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
-              >
-                <p className="mb-6 text-white leading-relaxed">
-                  <span className="text-[#90B8F8] font-medium text-2xl block mb-2">I'm a dedicated software engineer</span>
-                  with a relentless curiosity about complex systems. I quickly absorb <span className="text-[#5F85DB] font-medium">new technologies</span> and thrive in fast-paced, data-driven environments.
-                </p>
-                <p className="text-white leading-relaxed">
-                  <span className="text-[#90B8F8] font-medium text-2xl block mb-2">My approach</span>
-                  Strong <span className="text-[#5F85DB] font-medium">communication and collaboration skills</span> enable me to integrate seamlessly into any team,
-                  while my passion for <span className="text-[#5F85DB] font-medium">problem-solving</span> drives me to develop innovative, efficient solutions.
-                </p>
-              </motion.div>
-              <motion.div
-                className="flex space-x-6 mt-4 self-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7, duration: 0.5 }}
+                className="flex justify-center space-x-12 mb-16"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <motion.a
-                  href="mailto:rachid.ezz.dev@gmail.com"
-                  className="text-white p-3 bg-[#5F85DB] bg-opacity-30 rounded-none hover:bg-opacity-50 transition-all duration-300 border-b border-[#90B8F8]"
-                  whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                  whileTap={{ scale: 0.9 }}
+                  href="mailto:contact@rachidezzahraouy.com"
+                  className="bg-[#183B4E] text-white p-4 hover:bg-[#27548A] transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
                   </svg>
                 </motion.a>
                 <motion.a
                   href="https://www.linkedin.com/in/rezzahra/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white p-3 bg-[#5F85DB] bg-opacity-30 rounded-none hover:bg-opacity-50 transition-all duration-300 border-b border-[#90B8F8]"
-                  whileHover={{ scale: 1.1, rotate: -5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                  whileTap={{ scale: 0.9 }}
+                  className="bg-[#183B4E] text-white p-4 hover:bg-[#27548A] transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.2 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                   </svg>
                 </motion.a>
@@ -141,687 +575,110 @@ const DrawerNavigation = () => {
                   href="https://github.com/reroreo1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white p-3 bg-[#5F85DB] bg-opacity-30 rounded-none hover:bg-opacity-50 transition-all duration-300 border-b border-[#90B8F8]"
-                  whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                  whileTap={{ scale: 0.9 }}
+                  className="bg-[#183B4E] text-white p-4 hover:bg-[#27548A] transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.3 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                   </svg>
                 </motion.a>
               </motion.div>
-            </div>
-            <div className="p-8 text-white self-start md:pl-16">
-              <motion.button
-                onClick={() => setActiveSection('experience')}
-                className="px-6 py-3 bg-[#5F85DB] bg-opacity-30 rounded-sm text-lg hover:bg-opacity-50 transition-all duration-300 flex items-center space-x-2 border-l-2 border-[#90B8F8]"
-                whileHover={{ scale: 1.05, x: 5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span>View My Experience</span>
-                <motion.span
-                  initial={{ x: 0 }}
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >→</motion.span>
-              </motion.button>
-            </div>
-          </div>
-        );
-      case 'experience':
-        return (
-          <div className="h-full flex flex-col">
-            <div className="flex-grow p-8 md:pl-16 overflow-y-auto scrollbar-hide">
+
+              {/* Contact Heading */}
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-                className="mb-8"
+                className="text-center mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.4 }}
               >
-                <h1 className="text-5xl md:text-7xl font-light mb-4 text-white bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] bg-clip-text text-transparent">
-                  Experience & Education
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#183B4E]">
+                  Want to get in touch?
                 </h1>
-                <div className="h-1 w-48 bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] rounded-full mb-8"></div>
+                <p className="text-2xl font-medium text-[#183B4E]">
+                  Drop me a line
+                </p>
               </motion.div>
 
-              <div className="mb-12">
-                <motion.h2
-                  className="text-3xl font-light mb-6 text-white border-b border-[#5F85DB] pb-2 flex items-center"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                  Professional Experience
-                </motion.h2>
-
-                <motion.div
-                  className="mb-8 bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 border-l-4 border-[#5F85DB]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-2xl font-medium text-white">Lead Developer</h3>
-                    <span className="text-[#90B8F8] font-medium px-3 py-1 bg-[#5F85DB] bg-opacity-30 rounded-full text-sm border border-[#90B8F8]">06/2024 - present</span>
-                  </div>
-                  <h4 className="text-xl text-[#90B8F8] mb-4 border-b border-[#5F85DB] pb-2">OS Websolutions</h4>
-                  <div className="space-y-4 text-white">
-                    <p className="bg-[#353941] p-3 border-l-2 border-[#5F85DB] mb-4"><strong className="text-[#90B8F8]">Halal Sheikh App:</strong> Developed a cross-platform barcode scanning app using Flutter with a Strapi CMS backend, allowing users to check if products are halal or haram by scanning barcodes or searching by name. Integrated OCR for ingredient extraction, implemented scan history and product addition, and handled deployment on App Store and Google Play.</p>
-                    <p className="bg-[#353941] p-3 border-t-2 border-[#5F85DB] mb-4"><strong className="text-[#90B8F8]">ActiveCSP:</strong> Built an OSINT platform to monitor user assets like IPs, domains, and emails using tools such as Nmap, Nuclei, and honeypots. Deployed 15 global honeypots on Azure VMs, developed scanning services with FastAPI, Docker, and Bash, and orchestrated the backend using Azure Functions.</p>
-                    <p className="bg-[#353941] p-3 border-b-2 border-[#5F85DB]"><strong className="text-[#90B8F8]">Leadshift:</strong> Developed an AI-powered lead generation platform that automates cold outreach via emails and calls. Implemented the frontend using Next.js and ShadCN, and built the backend with NestJS. Oversaw the overall system design and selected the tech stack to support scalability and performance.</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="mb-8 bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 border-l-4 border-[#5F85DB]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-2xl font-medium text-white">Full Stack Developer</h3>
-                    <span className="text-[#90B8F8] font-medium px-3 py-1 bg-[#5F85DB] bg-opacity-30 rounded-full text-sm border border-[#90B8F8]">11/2023 - 04/2024</span>
-                  </div>
-                  <h4 className="text-xl text-[#90B8F8] mb-4 border-b border-[#5F85DB] pb-2">UMoP College of Computing</h4>
-                  <div className="space-y-3 text-white bg-[#353941] p-3 rounded-md border border-[#5F85DB]">
-                    <p>Skills: <span className="text-[#90B8F8]">Python (Programming Language)</span> · <span className="text-[#90B8F8]">NumPy</span> · <span className="text-[#90B8F8]">Angular</span></p>
-                  </div>
-                </motion.div>
-              </div>
-
-              <div>
-                <motion.h2
-                  className="text-3xl font-light mb-6 text-white border-b border-[#5F85DB] pb-2 flex items-center"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                >
-                  <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                  Education
-                </motion.h2>
-
-                <motion.div
-                  className="mb-6 bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 border-r-4 border-[#5F85DB]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 0.5 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-2xl font-medium text-white">Member, software architect</h3>
-                    <span className="text-[#90B8F8] font-medium px-3 py-1 bg-[#5F85DB] bg-opacity-30 rounded-full text-sm border border-[#90B8F8]">2026</span>
-                  </div>
-                  <h4 className="text-xl text-[#90B8F8] border-b border-[#5F85DB] pb-2">1337 Benguerir</h4>
-                  <div className="mt-3 bg-[#353941] p-3 rounded-md text-white border border-[#5F85DB]">
-                    <p>Specialized in software architecture and advanced programming techniques.</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 border-r-4 border-[#5F85DB]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-2xl font-medium text-white">École nationale des sciences appliquées d'Agadir</h3>
-                    <span className="text-[#90B8F8] font-medium px-3 py-1 bg-[#5F85DB] bg-opacity-30 rounded-full text-sm border border-[#90B8F8]">2018 - 2020</span>
-                  </div>
-                  <h4 className="text-xl text-[#90B8F8] border-b border-[#5F85DB] pb-2">Computer Science & Engineering</h4>
-                  <div className="mt-3 bg-[#353941] p-3 rounded-md text-white border border-[#5F85DB]">
-                    <p>Focused on computer science fundamentals and engineering principles.</p>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-            <div className="p-8 text-white">
-              <motion.button
-                onClick={() => setActiveSection('projects')}
-                className="px-6 py-3 bg-[#5F85DB] bg-opacity-30 rounded-none text-lg hover:bg-opacity-50 transition-all duration-300 flex items-center space-x-2 border-b-2 border-[#90B8F8]"
-                whileHover={{ scale: 1.05, x: 5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                whileTap={{ scale: 0.95 }}
+              {/* Contact Form */}
+              <motion.form
+                className="space-y-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
               >
-                <span>View My Projects</span>
-                <motion.span
-                  initial={{ x: 0 }}
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >→</motion.span>
-              </motion.button>
-            </div>
-          </div>
-        );
-      case 'projects':
-        return (
-          <div className="h-full flex flex-col">
-            <div className="flex-grow p-8 md:pl-16 overflow-y-auto scrollbar-hide">
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-                className="mb-8"
-              >
-                <h1 className="text-5xl md:text-7xl font-light mb-4 text-white bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] bg-clip-text text-transparent">
-                  Projects & Skills
-                </h1>
-                <div className="h-1 w-48 bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] rounded-full mb-8"></div>
-              </motion.div>
-
-              <div className="mb-12">
-                <motion.h2
-                  className="text-3xl font-light mb-6 text-white border-b border-[#5F85DB] pb-2 flex items-center"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                  Skills
-                </motion.h2>
-                <div className="space-y-8">
-                  {/* Frontend Skills */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="text-2xl font-medium mb-4 text-white flex items-center">
-                      <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                      Frontend
-                    </h3>
-                    <motion.div
-                      className="flex flex-wrap gap-3"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ staggerChildren: 0.05, delayChildren: 0.2 }}
-                    >
-                      {[
-                        'Next.js', 'Angular', 'React.js', 'TypeScript', 'JavaScript',
-                        'TailwindCSS', 'Bootstrap', 'Flutter', 'Dart', 'Version Control'
-                      ].map((skill, index) => (
-                        <motion.span
-                          key={skill}
-                          className="px-4 py-2 bg-[#5F85DB] bg-opacity-30 text-white text-sm flex items-center border-b border-[#90B8F8]"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: index * 0.03,
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            backgroundColor: "rgba(95, 133, 219, 0.5)",
-                            transition: { duration: 0.2 }
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </motion.div>
+                    <label htmlFor="name" className="block text-lg mb-2 text-[#183B4E] font-medium">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      placeholder="Enter your name"
+                      className="w-full px-4 py-3 bg-white border-2 border-[#F3F3E0] focus:border-[#183B4E] focus:outline-none transition-all duration-300 text-[#183B4E]"
+                    />
                   </div>
 
-                  {/* Databases Skills */}
                   <div>
-                    <h3 className="text-2xl font-medium mb-4 text-white flex items-center">
-                      <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                      Databases
-                    </h3>
-                    <motion.div
-                      className="flex flex-wrap gap-3"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ staggerChildren: 0.05, delayChildren: 0.3 }}
-                    >
-                      {[
-                        'MySQL', 'PostgreSQL', 'MongoDB', 'GraphQL'
-                      ].map((skill, index) => (
-                        <motion.span
-                          key={skill}
-                          className="px-4 py-2 bg-[#5F85DB] bg-opacity-30 text-white text-sm flex items-center border-t border-[#90B8F8]"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: index * 0.03,
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            backgroundColor: "rgba(95, 133, 219, 0.5)",
-                            transition: { duration: 0.2 }
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  </div>
-
-                  {/* DevOps Skills */}
-                  <div>
-                    <h3 className="text-2xl font-medium mb-4 text-white flex items-center">
-                      <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                      DevOps
-                    </h3>
-                    <motion.div
-                      className="flex flex-wrap gap-3"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ staggerChildren: 0.05, delayChildren: 0.4 }}
-                    >
-                      {[
-                        'Docker', 'Linux', 'AWS', 'Digital Ocean', 'Microsoft Azure'
-                      ].map((skill, index) => (
-                        <motion.span
-                          key={skill}
-                          className="px-4 py-2 bg-[#5F85DB] bg-opacity-30 text-white text-sm flex items-center border-l border-[#90B8F8]"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: index * 0.03,
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            backgroundColor: "rgba(95, 133, 219, 0.5)",
-                            transition: { duration: 0.2 }
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  </div>
-
-                  {/* Backend Skills */}
-                  <div>
-                    <h3 className="text-2xl font-medium mb-4 text-white flex items-center">
-                      <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                      Backend
-                    </h3>
-                    <motion.div
-                      className="flex flex-wrap gap-3"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ staggerChildren: 0.05, delayChildren: 0.5 }}
-                    >
-                      {[
-                        'Python', 'Flask', 'FastAPI', 'JavaScript', 'TypeScript', 'Node.js', 'Express'
-                      ].map((skill, index) => (
-                        <motion.span
-                          key={`backend-${skill}-${index}`}
-                          className="px-4 py-2 bg-[#5F85DB] bg-opacity-30 text-white text-sm flex items-center border-r border-[#90B8F8]"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: index * 0.03,
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            backgroundColor: "rgba(95, 133, 219, 0.5)",
-                            transition: { duration: 0.2 }
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </motion.div>
+                    <label htmlFor="email" className="block text-lg mb-2 text-[#183B4E] font-medium">Email Address</label>
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="Enter your email"
+                      className="w-full px-4 py-3 bg-white border-2 border-[#F3F3E0] focus:border-[#183B4E] focus:outline-none transition-all duration-300 text-[#183B4E]"
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <motion.h2
-                  className="text-3xl font-light mb-6 text-white border-b border-[#5F85DB] pb-2 flex items-center"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                >
-                  <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                  Certificates
-                </motion.h2>
-
-                <motion.div
-                  className="space-y-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ staggerChildren: 0.1, delayChildren: 0.3 }}
-                >
-                  <motion.div
-                    className="p-5 bg-[#26282B] bg-opacity-90 border-t-2 border-[#5F85DB] hover:border-[#90B8F8] transition-all duration-300"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1, type: "spring", stiffness: 100 }}
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.5)",
-                      backgroundColor: "rgba(95, 133, 219, 0.2)"
-                    }}
-                  >
-                    <h3 className="text-xl font-medium text-white flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Meta Full Stack Developer Specialization (React-Django)
-                    </h3>
-                    <p className="text-white text-opacity-80 mt-2 ml-7">Meta - 2023</p>
-                  </motion.div>
-
-                  <motion.div
-                    className="p-5 bg-[#26282B] bg-opacity-90 border-r-2 border-[#5F85DB] hover:border-[#90B8F8] transition-all duration-300"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.5)",
-                      backgroundColor: "rgba(95, 133, 219, 0.2)"
-                    }}
-                  >
-                    <h3 className="text-xl font-medium text-white flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Programming with Javascript
-                    </h3>
-                    <p className="text-white text-opacity-80 mt-2 ml-7">Coursera - 2023</p>
-                  </motion.div>
-
-                  <motion.div
-                    className="p-5 bg-[#26282B] bg-opacity-90 border-b-2 border-[#5F85DB] hover:border-[#90B8F8] transition-all duration-300"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.5)",
-                      backgroundColor: "rgba(95, 133, 219, 0.2)"
-                    }}
-                  >
-                    <h3 className="text-xl font-medium text-white flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Data Structure and Algorithmic using Javascript
-                    </h3>
-                    <p className="text-white text-opacity-80 mt-2 ml-7">Coursera - 2023</p>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </div>
-            <div className="p-8 text-white">
-              <motion.button
-                onClick={() => setActiveSection('contact')}
-                className="px-6 py-3 bg-[#5F85DB] bg-opacity-30 rounded-full text-lg hover:bg-opacity-50 transition-all duration-300 flex items-center space-x-2 border border-[#90B8F8]"
-                whileHover={{ scale: 1.05, x: 5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span>Contact Me</span>
-                <motion.span
-                  initial={{ x: 0 }}
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >→</motion.span>
-              </motion.button>
-            </div>
-          </div>
-        );
-      case 'contact':
-        return (
-          <div className="h-full flex flex-col">
-            <div className="flex-grow flex flex-col md:flex-row p-8 md:pl-16">
-              <motion.div
-                className="w-full md:w-1/2 mb-8 md:mb-0 md:pr-8"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, type: "spring" }}
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-                  className="mb-8"
-                >
-                  <h1 className="text-5xl md:text-7xl font-light mb-4 text-white bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] bg-clip-text text-transparent">
-                    Contact
-                  </h1>
-                  <div className="h-1 w-24 bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] rounded-full mb-8"></div>
-                </motion.div>
-
-                <motion.div
-                  className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 rounded-lg shadow-lg mb-8 border border-[#5F85DB]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <p className="text-xl font-light text-white">
-                    I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
-                  </p>
-                </motion.div>
-
-                <div className="space-y-4">
-                  <motion.div
-                    className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-4 flex items-center border-l-2 border-[#5F85DB]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="bg-[#5F85DB] bg-opacity-50 p-3 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#90B8F8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl mb-1 text-[#90B8F8] font-medium">Email</h3>
-                      <a href="mailto:rachid.ezz.dev@gmail.com" className="text-white hover:text-[#90B8F8] transition-colors">
-                        rachid.ezz.dev@gmail.com
-                      </a>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-4 flex items-center border-t-2 border-[#5F85DB]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="bg-[#5F85DB] bg-opacity-50 p-3 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#90B8F8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl mb-1 text-[#90B8F8] font-medium">Phone</h3>
-                      <a href="tel:+212777969175" className="text-white hover:text-[#90B8F8] transition-colors">
-                        +212 777 969 175
-                      </a>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-4 flex items-center border-r-2 border-[#5F85DB]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="bg-[#5F85DB] bg-opacity-50 p-3 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#90B8F8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl mb-1 text-[#90B8F8] font-medium">Location</h3>
-                      <p className="text-white">
-                        Dcheira El Jihadia, Agadir
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-4 flex items-center border-b-2 border-[#5F85DB]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.5 }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="bg-[#5F85DB] bg-opacity-50 p-3 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#90B8F8]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl mb-1 text-[#90B8F8] font-medium">LinkedIn</h3>
-                      <a href="https://www.linkedin.com/in/rezzahra/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#90B8F8] transition-colors">
-                        linkedin.com/in/rezzahra
-                      </a>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-4 flex items-center border-l-2 border-r-2 border-[#5F85DB]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.5 }}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="bg-[#5F85DB] bg-opacity-50 p-3 rounded-full mr-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#90B8F8]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl mb-1 text-[#90B8F8] font-medium">GitHub</h3>
-                      <a href="https://github.com/reroreo1" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#90B8F8] transition-colors">
-                        github.com/reroreo1
-                      </a>
-                    </div>
-                  </motion.div>
+                <div>
+                  <label htmlFor="message" className="block text-lg mb-2 text-[#183B4E] font-medium">Message</label>
+                  <textarea
+                    id="message"
+                    rows={6}
+                    placeholder="Enter your message"
+                    className="w-full px-4 py-3 bg-white border-2 border-[#F3F3E0] focus:border-[#183B4E] focus:outline-none transition-all duration-300 text-[#183B4E]"
+                  ></textarea>
                 </div>
-              </motion.div>
-              <div className="w-full md:w-1/2">
-                <motion.div
-                  className="bg-[#26282B] bg-opacity-90 backdrop-blur-sm p-6 border-t-2 border-b-2 border-[#5F85DB]"
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, type: "spring" }}
-                >
-                  <motion.h2
-                    className="text-3xl font-light mb-6 text-white border-b border-[#5F85DB] pb-2 flex items-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <span className="bg-[#5F85DB] w-2 h-6 mr-3 rounded-sm"></span>
-                    Send a Message
-                  </motion.h2>
 
-                  <motion.form
-                    className="space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
+                <div className="flex justify-center mt-8">
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02, backgroundColor: "#27548A" }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-12 py-4 bg-[#183B4E] text-white text-lg font-medium transition-all duration-300"
                   >
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
-                      className="bg-[#353941] bg-opacity-80 p-4 border-l-2 border-[#5F85DB]"
-                    >
-                      <label htmlFor="name" className="block text-lg mb-2 text-[#90B8F8] font-medium">Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        className="w-full px-4 py-3 bg-black bg-opacity-30 border-b border-[#5F85DB] focus:border-[#90B8F8] focus:outline-none text-white transition-all duration-300"
-                        placeholder="Your name"
-                      />
-                    </motion.div>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-                      className="bg-[#353941] bg-opacity-80 p-4 border-r-2 border-[#5F85DB]"
-                    >
-                      <label htmlFor="email" className="block text-lg mb-2 text-[#90B8F8] font-medium">Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="w-full px-4 py-3 bg-black bg-opacity-30 border-b border-[#5F85DB] focus:border-[#90B8F8] focus:outline-none text-white transition-all duration-300"
-                        placeholder="your.email@example.com"
-                      />
-                    </motion.div>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.6, type: "spring", stiffness: 100 }}
-                      className="bg-[#353941] bg-opacity-80 p-4 border-t-2 border-[#5F85DB]"
-                    >
-                      <label htmlFor="message" className="block text-lg mb-2 text-[#90B8F8] font-medium">Message</label>
-                      <textarea
-                        id="message"
-                        rows={4}
-                        className="w-full px-4 py-3 bg-black bg-opacity-30 border-b border-[#5F85DB] focus:border-[#90B8F8] focus:outline-none text-white transition-all duration-300"
-                        placeholder="Your message here..."
-                      ></textarea>
-                    </motion.div>
-                    <motion.button
-                      type="button"
-                      className="w-full px-8 py-4 bg-gradient-to-r from-[#5F85DB] to-[#90B8F8] text-white text-lg hover:from-[#5F85DB] hover:to-[#5F85DB] transition-all duration-300 flex items-center justify-center space-x-2"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7, type: "spring", stiffness: 100 }}
-                      whileHover={{ scale: 1.03, boxShadow: "0 10px 25px -5px rgba(95, 133, 219, 0.6)" }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <span>Send Message</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </motion.button>
-                  </motion.form>
-                </motion.div>
-              </div>
-            </div>
-            <div className="p-8 text-white self-start md:pl-16">
-              <motion.button
-                onClick={() => setActiveSection('profile')}
-                className="px-6 py-3 bg-[#5F85DB] bg-opacity-30 rounded-none text-lg hover:bg-opacity-50 transition-all duration-300 flex items-center space-x-2 border-t-2 border-[#90B8F8]"
-                whileHover={{ scale: 1.05, x: -5, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                whileTap={{ scale: 0.95 }}
+                    Submit
+                  </motion.button>
+                </div>
+              </motion.form>
+
+              {/* Back Button */}
+              <motion.div
+                className="mt-12 flex justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.6 }}
               >
-                <motion.span
-                  initial={{ x: 0 }}
-                  animate={{ x: [0, -5, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >←</motion.span>
-                <span>Back to Profile</span>
-              </motion.button>
+                <motion.button
+                  onClick={() => setActiveSection('profile')}
+                  className="text-[#183B4E] font-medium hover:underline transition-all duration-300 flex items-center space-x-2"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <motion.span
+                    initial={{ x: 0 }}
+                    animate={{ x: [0, -5, 0] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1.5,
+                      ease: "easeInOut"
+                    }}
+                  >←</motion.span>
+                  <span>Back to Profile</span>
+                </motion.button>
+              </motion.div>
             </div>
           </div>
         );
@@ -839,57 +696,36 @@ const DrawerNavigation = () => {
     <div className="fixed inset-0 flex flex-col h-screen w-screen overflow-hidden">
       {/* Header with logo and menu button */}
       <motion.header
-        className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center p-6"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center p-1"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 15,
-          delay: 0.2
+          duration: 0.5,
+          ease: "easeOut",
+          delay: 0.1
         }}
       >
         <motion.div
           className="flex items-center"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <Link href="/" className="text-2xl font-bold text-white bg-opacity-10 p-3 rounded-full">
+          <Link href="/" className="text-2xl font-bold text-black bg-opacity-10 p-3 rounded-full">
             RE
           </Link>
         </motion.div>
 
         <div className="flex items-center space-x-4">
-          <motion.button
-            onClick={toggleTheme}
-            className="p-3 text-white bg-[#5F85DB] bg-opacity-30 rounded-none hover:bg-opacity-50 transition-all duration-300 border-l-2 border-[#90B8F8]"
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            whileHover={{ scale: 1.1, rotate: 15, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-            whileTap={{ scale: 0.9, rotate: 0 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            {theme === 'light' ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            )}
-          </motion.button>
 
           <motion.button
             onClick={toggleMenu}
-            className="md:hidden p-3 text-white bg-[#5F85DB] bg-opacity-30 rounded-none hover:bg-opacity-50 border-r-2 border-[#90B8F8]"
+            className="md:hidden p-3 text-white bg-[#183B4E] bg-opacity-30 hover:bg-opacity-50 border-r-2 border-[#DDA853]"
             aria-label="Toggle menu"
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(95, 133, 219, 0.5)", boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.02, backgroundColor: "rgba(24, 59, 78, 0.5)" }}
+            whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
           >
             <div className="w-6 h-5 relative flex flex-col justify-between">
               <span className={`w-full h-0.5 bg-white block transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -907,30 +743,28 @@ const DrawerNavigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="fixed inset-0 z-40 bg-[#26282B] bg-opacity-95 md:hidden flex flex-col items-center justify-center"
           >
             <motion.nav
               className="flex flex-col items-center space-y-8"
-              initial={{ scale: 0.9, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 25,
-                staggerChildren: 0.15,
-                delayChildren: 0.2
+                duration: 0.4,
+                ease: "easeOut",
+                staggerChildren: 0.08,
+                delayChildren: 0.1
               }}
             >
-              {sections.map((section, index) => (
+              {sections.map((section) => (
                 <motion.button
                   key={section.id}
-                  initial={{ y: 100, opacity: 0 }}
+                  initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{
-                    delay: index * 0.15,
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20
+                    duration: 0.4,
+                    ease: "easeOut"
                   }}
                   onClick={() => {
                     setActiveSection(section.id);
@@ -938,12 +772,12 @@ const DrawerNavigation = () => {
                   }}
                   className={`text-2xl font-light transition-all duration-300 px-6 py-2 ${
                     activeSection === section.id
-                      ? 'text-white font-normal bg-[#5F85DB] bg-opacity-30 border-l-2 border-[#90B8F8]'
-                      : 'text-gray-400 hover:text-[#90B8F8] hover:bg-[#5F85DB] hover:bg-opacity-20 hover:border-l-2 hover:border-[#90B8F8]'
+                      ? 'text-white font-normal bg-[#183B4E] bg-opacity-30 border-l-2 border-[#DDA853]'
+                      : 'text-gray-400 hover:text-[#DDA853] hover:bg-[#183B4E] hover:bg-opacity-20 hover:border-l-2 hover:border-[#DDA853]'
                   }`}
-                  style={{ color: activeSection === section.id ? (theme === 'dark' ? section.darkColor : section.color) : '' }}
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 10px rgba(144, 184, 248, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
+                  style={{ color: activeSection === section.id ? section.color : '' }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {section.englishLabel}
                 </motion.button>
@@ -960,35 +794,49 @@ const DrawerNavigation = () => {
             key={section.id}
             className="h-full overflow-hidden relative"
             style={{
-              backgroundColor: theme === 'dark' ? section.darkColor : section.color,
+              backgroundColor: section.color,
               cursor: activeSection === section.id ? 'default' : 'pointer'
             }}
             initial={{
               width: 0,
-              y: 800,
               opacity: 0
             }}
             animate={{
               width: getSectionWidth(section.id),
-              y: 0,
               opacity: 1
             }}
             transition={{
-              duration: 0.7,
-              ease: [0.16, 1, 0.3, 1],
-              delay: index * 0.15, // Staggered delay based on index
-              opacity: { duration: 0.5, delay: index * 0.15 + 0.2 }
+              duration: 0.8,
+              ease: [0.25, 0.1, 0.25, 1.0], // Improved cubic bezier curve for smoother motion
+              delay: index * 0.1, // Slightly reduced delay for faster overall animation
             }}
             onClick={() => activeSection !== section.id && setActiveSection(section.id)}
           >
             {/* Vertical text for collapsed sections */}
             {activeSection !== section.id && (
-              <div className="absolute inset-0 flex items-center justify-center hover:bg-[#5F85DB] hover:bg-opacity-20 hover:shadow-[inset_0_0_0_1px_#90B8F8] transition-all duration-300">
+              <div className={`absolute inset-0 flex items-center justify-center ${
+                section.id === 'profile'
+                  ? 'hover:bg-[#183B4E] hover:bg-opacity-20 hover:shadow-[inset_0_0_0_1px_#183B4E]'
+                  : section.id === 'experience'
+                    ? 'hover:bg-[#DDA853] hover:bg-opacity-20 hover:shadow-[inset_0_0_0_1px_#DDA853]'
+                    : section.id === 'projects'
+                      ? 'hover:bg-[#DDA853] hover:bg-opacity-20 hover:shadow-[inset_0_0_0_1px_#DDA853]'
+                      : 'hover:bg-[#F3F3E0] hover:bg-opacity-20 hover:shadow-[inset_0_0_0_1px_#F3F3E0]'
+              } transition-all duration-300`}>
                 <motion.div
                   className="transform rotate-90 whitespace-nowrap"
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  whileHover={{ scale: 1.05, color: "#90B8F8" }}
+                  whileHover={{
+                    scale: 1.05,
+                    color: section.id === 'profile'
+                      ? '#183B4E'
+                      : section.id === 'experience'
+                        ? '#DDA853'
+                        : section.id === 'projects'
+                          ? '#DDA853'
+                          : '#F3F3E0'
+                  }}
                   transition={{
                     type: "spring",
                     stiffness: 400,
@@ -996,7 +844,9 @@ const DrawerNavigation = () => {
                     delay: index * 0.15 + 0.3 // Staggered delay for text appearance
                   }}
                 >
-                  <h2 className="text-lg font-light text-white flex items-center space-x-2">
+                  <h2 className={`text-lg font-light flex items-center space-x-2 ${
+                    section.id === 'profile' && theme !== 'dark' ? 'text-[#183B4E]' : 'text-white'
+                  }`}>
                     <span className="font-normal">{section.englishLabel}</span>
                     <motion.span
                       initial={{ x: -5, opacity: 0 }}
@@ -1011,14 +861,11 @@ const DrawerNavigation = () => {
             {/* Content for expanded section */}
             {activeSection === section.id && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{
-                  delay: 0.3,
-                  duration: 0.6,
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15
+                  duration: 0.5,
+                  ease: "easeOut"
                 }}
                 className="h-full overflow-y-auto scrollbar-hide"
               >
@@ -1033,18 +880,15 @@ const DrawerNavigation = () => {
       <div className="md:hidden h-full overflow-hidden">
         <motion.div
           className="h-full overflow-y-auto scrollbar-hide"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 20,
-            delay: 0.3
+            duration: 0.5,
+            ease: "easeOut",
+            delay: 0.2
           }}
           style={{
-            backgroundColor: theme === 'dark'
-              ? sections.find(s => s.id === activeSection)?.darkColor
-              : sections.find(s => s.id === activeSection)?.color
+            backgroundColor: sections.find(s => s.id === activeSection)?.color
           }}
         >
           {getSectionContent(activeSection)}
